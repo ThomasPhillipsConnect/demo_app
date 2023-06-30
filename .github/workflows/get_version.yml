@@ -1,14 +1,24 @@
 name: Get version
 on: push
 
+env:
+  BUNDLE_ID: "com.citizensband.app.qa"
+
 jobs:
-  test:
+  getAndPrintAppVersion:
     runs-on: ubuntu-latest
     steps:
-    - name: Get app version
+    - id: get_version
+      name: Get latest app version for app id `${{ env.BUNDLE_ID }}`
       uses: ThomasPhillipsConnect/gh_action_app_store_connect_get_version@v1
       with:
-        appStoreConnectPrivateKey: ${{ secrets.APPSTORECONNECTPRIVATEKEY }}
-        keyID: ${{ secrets.KEYID }}
-        issuerID: ${{ secrets.ISSUERID }}
-        bundleID: "com.citizensband.app.qa"
+        appStoreConnectPrivateKey: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+        keyID: ${{ secrets.KEY_ID }}
+        issuerID: ${{ secrets.ISSUER_ID }}
+        bundleID: ${{ env.BUNDLE_ID }}
+    - name: Print latest app version
+      run: echo '${{ steps.get_version.outputs.appVersion }}'
+    - name: Print latest app build version
+      run: echo '${{ steps.get_version.outputs.appBuildVersion }}'
+    - name: Print combined app version and app build version
+      run: echo '${{ steps.get_version.outputs.appVersion }} (${{ steps.get_version.outputs.appBuildVersion }})'
