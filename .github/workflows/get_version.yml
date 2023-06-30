@@ -1,0 +1,14 @@
+name: Get version
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get app version
+      uses: ThomasPhillipsConnect/gh_action_app_store_connect_get_version@v1
+      with:
+        appStoreConnectPrivateKey: ${{ secrets.APPSTORECONNECTPRIVATEKEY }}
+        keyID: ${{ secrets.KEYID }}
+        issuerID: ${{ secrets.ISSUERID }}
+        bundleID: "com.citizensband.app.qa"
